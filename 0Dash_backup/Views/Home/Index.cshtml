@@ -1,0 +1,66 @@
+﻿@using WebApplication3.Models
+@model InfoMo
+
+@{ Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Home Page";
+    //var lasti = 0;
+}
+
+
+<style type="text/css">
+
+    #color {
+        background-color: #3399CC;
+    }
+</style>
+
+<div class="" id="showDT"></div>
+
+
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        LoadInfo();
+        myFunction();
+    });
+
+    function ajaxSet(url, method, postData) {
+        return {
+            type: method,
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(postData),
+            dataType: "html",
+        };
+    }
+
+    function LoadInfo() {
+        $("#showDT").empty();
+        var postData = {
+            //lastindex: lasti
+            //plant: plantid
+            //company: "DET01",
+            //plant: "Plant Name"
+
+        };
+
+        var Settings = ajaxSet("@Url.Action("datacoutn", "Home")", "POST", postData);
+        $.ajax(Settings).done(function (resHtml) {
+            $("#showDT").html(resHtml);
+            //hide subDetail scrap material
+        }).fail(function (res) {
+            $("#showDT").html(res.responseText);
+        });
+    }
+
+    function myFunction() {
+        setInterval("refresh()", 10000);
+    }
+    function refresh() {
+        LoadInfo();
+    }
+
+
+</script>

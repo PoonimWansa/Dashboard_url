@@ -1,0 +1,164 @@
+﻿@using WebApplication3.Models
+@model InfoMo
+
+
+@*<label><b>Company :</b></label> <label>@Model.compny</label><br />
+    <label><b>Plant :</b></label> <label>@Model.plant</label>*@
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+<style type="text/css">
+    #color {
+        background-color: #0c89d1;
+    }
+    #table {
+        width: 100%;
+        height: 100%;
+        margin: 0 0;
+        /*padding: 15px;*/
+        overflow: hidden;
+    }
+
+    .table th, table td {
+        padding: 0.25em 0.5em;
+        text-align: left;
+        vertical-align: top;
+        text-align: center;
+    }
+
+/*    .table th {
+            background-color: #009;
+            color: #fff;
+        }
+
+    .table td {
+            background-color: #eee;
+        }*/
+
+    .table tr {
+            transition: all 1s ease-in-out;
+        }
+
+    .table tr.slide-out {
+                transform: rotateX(90deg);
+            }
+
+    .btn {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 15px;
+        font-weight: normal;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        padding: 10px 16px;
+    }
+
+    .round {
+        border-radius: 24px;
+    }
+    .btn {
+        padding: 10px 24px;
+        border: 0 none;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+    /*button Status Do not*/
+    .btn-primary {
+        background-image: linear-gradient(to bottom right,#CC0000,#990000);
+        color: #ffffff;
+    }
+    /*button Status Already*/
+    .btn-primaryd {
+        background-image: linear-gradient(to bottom right,DimGrey,#BEBEBE);
+        color: #ffffff;
+    }
+    /*button EWM*/
+    .btn-primaryg {
+        background-image: linear-gradient(to bottom right,#FFCC66,#FFFF66);
+        color: #003366;
+    }
+    /*button normal*/
+    .btn-primaryt {
+        background-image: linear-gradient(to bottom right,#00CC66,#00CCCC);
+        color: #006666;
+    }
+
+
+
+</style>
+
+<div class="active">
+    <table id="datatable1" class="table table-bordered;">
+        <thead class="thead-info">
+            <tr style="height: 90px;color: #003366">
+                <th style="width: 1% " class="text-center align-middle">Item</th>
+                <th style="width: 22% " class="text-center align-middle">Pallet</th>
+                <th style="width: 24% " class="text-center align-middle">Model</th>
+                <th style="width: 16% " class="text-center align-middle">WO</th>
+                <th style="width: 7% " class="text-center align-middle">Qty</th>
+                <th style="width: 17% " class="text-center align-middle">FQC Status</th>
+                <th style="width: 13% " class="text-center align-middle">EWM Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.listdata != null)
+            {
+                foreach (var item in Model.listdata)
+                {
+                    <tr style="height:60px;overflow: auto;">
+                        <td class="text-center align-middle">@item.Num</td>
+                        <td class="text-center align-middle">@item.Pallet</td>
+                        <td class="text-left align-middle">@item.Model</td>
+                        <td class="text-center align-middle">@item.WO</td>
+                        <td class="text-center align-middle">@item.Qty</td>
+                        @if (@item.QtyStatus_FQC == "Do not FQC")
+                        {
+                            <td class="text-center align-middle "><button type="button" class="btn btn-primary btn-lg round">@item.QtyStatus_FQC</button></td>
+                        }
+                        @if (@item.QtyStatus_FQC == "Already pass FQC")
+                        {
+                            <td class="text-center align-middle "><button type="button" class="btn btn-primaryt btn-lg round">@item.QtyStatus_FQC</button></td>
+                        }
+                        @if (@item.StatusModel == "EWM")
+                        {
+                            <td class="text-center align-middle"><button type="button" class="btn btn-primaryg btn-lg round">@item.StatusModel</button></td>
+                        }
+                        @if (@item.StatusModel == "Non EWM")
+                        {
+                            <td class="text-center align-middle"><button type="button" class="btn btn-primaryd btn-lg round">@item.StatusModel</button></td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    const rows = Array.from(document.querySelectorAll('tr'));
+
+    function slideOut(row) {
+        row.classList.add('slide-out');
+    }
+
+    function slideIn(row, index) {
+        setInterval(function () {
+            row.classList.remove('slide-out');
+        }, (index +5) * 200);
+    }
+
+    rows.forEach(slideOut);
+
+    rows.forEach(slideIn);
+</script>
+
